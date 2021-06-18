@@ -1,18 +1,33 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <h1>All Popups</h1>
+    <div v-for="popup in popups" v-bind:key="popup.id">
+      <p>{{ popup }}</p>
+    </div>
   </div>
 </template>
 
-<script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+<style></style>
 
+<script>
+import axios from "axios";
 export default {
-  name: "Home",
-  components: {
-    HelloWorld,
+  data: function () {
+    return {
+      message: "Welcome to Vue.js!",
+      popups: [],
+    };
+  },
+  created: function () {
+    this.indexPopups();
+  },
+  methods: {
+    indexPopups: function () {
+      axios.get("/popups").then((response) => {
+        console.log("popups index", response);
+        this.popups = response.data;
+      });
+    },
   },
 };
 </script>
